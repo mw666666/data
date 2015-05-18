@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDemo</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="bootstrap-3.2.0/css/bootstrap.css" rel="stylesheet" type="text/css" >
+<link href="css/common.css" rel="stylesheet" type="text/css" >
+<link href="css/theme.css" rel="stylesheet" type="text/css" >
+
+<link rel="stylesheet" href="js/lib/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="js/lib/codemirror/theme/eclipse.css">
+
+</head>
+<body>
+<!-- header导航bar start-->
+<header class="navbar sdemo-navbar">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand logo" href="#">SDemo</a>
+		</div>
+		<form class="navbar-form navbar-left" role="search">
+			<div class="form-group">
+				<input type="text" class="form-control sdemo-search" placeholder="dialog">
+			</div>
+			<button type="submit" class="btn btn-default sdemo-search-btn"><i class="glyphicon glyphicon-search"></i> 搜索</button>
+		</form>
+		<ul class="nav navbar-nav navbar-right">
+			<li d-show="!userName"> <a d-click="jumpLogin">登录</a> </li>
+			<li d-show="!userName"> <a href="#">注册</a> </li>
+			<li d-show="!!userName">
+				<a d-click="jumpMySdemo">
+					<i class="glyphicon glyphicon-user"></i>
+					<span d-text="userName"></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</header>
+<div id="container" class="container">
+	<div d-show="currSection === 'sdemoDetail'"><a d-click="jumpSdemoList" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> 返回</a></div>
+	<div d-show="currSection == 'sdemoList'" class="sdemo-list-container">
+		<div id="sdemoList"></div>
+	</div>
+	<div d-show="currSection == 'sdemoDetail'" class="sdemo-container">
+		<div id="sdemo-detail"></div>
+	</div>
+	<div d-show="currSection == 'login'" class="sdemo-container">
+		<div id="sdemo-login"></div>
+	</div>	
+	<div d-show="currSection == 'mySdemo'" class="sdemo-container">
+		<div id="my-sdemo"></div>
+	</div>	
+</div>
+
+<footer class="bs-footer">
+  <div class="container">
+  	<a class="text-center logo" href="http://www.sdemo.cn">SDemo</a>
+    <ul class="footer-links pull-left">
+      <li>© 2013 SDemo</li>
+      <li class="muted">&middot;</li>
+      <li><a href="#">版权声明</a></li>
+      <li class="muted">&middot;</li>
+      <li><a href="#">关于我们</a></li>
+      <li class="muted">&middot;</li>
+      <li><a href="#">联系我们</a></li>
+    </ul>
+	<ul class="footer-links pull-right">
+      <li>友情连接</li>
+      <li class="muted">&middot;</li>
+      <li><a href="https://github.com/">github</a></li>
+      <li class="muted">&middot;</li>
+      <li><a href="http://www.cnblogs.com">博客园</a></li>
+      <li class="muted">&middot;</li>
+      <li><a href="https://github.com/qmw/datajs">datajs</a></li>
+    </ul>    
+    
+  </div>
+</footer>
+
+<script src="js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="datajs/Util.js"></script>
+<script src="datajs/Emiter.js"></script>
+<script src="datajs/AOP.js"></script>
+<script src="datajs/DataManager.js"></script>
+<script src="datajs/Data.js"></script>
+<script src="datajs/WatchData.js"></script>
+<script src="datajs/Bind.js"></script>
+<script src="datajs/ExpParser.js"></script>
+<!-- <script src="interface/interface.js"></script> -->
+<script src="js/lib/codemirror/lib/codemirror.js"></script>
+<script src="js/lib/codemirror/mode/xml/xml.js"></script>
+<script src="js/lib/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/lib/codemirror/mode/css/css.js"></script>
+<script src="js/lib/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="js/lib/codemirror/keymap/sublime.js"></script>
+
+
+<script data-main="main" src="js/require.js" type="text/javascript"></script>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 var express = require('express');
+global.rootPath = __dirname + '/';
 var config = require('./config/config');
 var utils = require('./system/utils/utils');
-
 global.config = config;
 global.q = {
     utils: utils

@@ -1,4 +1,5 @@
 var servicesPath = global.config.servicesPath;
+var servicesDir = global.config.servicesDir;
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
@@ -19,7 +20,7 @@ function Class(constructorMethods, db){
 }
 
 module.exports = function(db, serviceName){
-    var serviceMethods = require(path.join(servicesPath + serviceName));
+    var serviceMethods = require(path.join(servicesDir + serviceName));
     var service = Class(serviceMethods, db);
     return service;
 };

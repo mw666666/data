@@ -1,23 +1,25 @@
+var path = require('path');
 var config = {
     port: 8080,
-    basePath: '../', //应用根路径，程序中常用
-    baseDir: '../', //应用根路径，程序中常用
+    basePath: path.relative(path.dirname(), global.rootPath), //应用根路径，程序中常用
+    baseDir: global.rootPath, //应用根路径，程序中常用
     script_ext: ".js", //编程用的脚本后缀
     assets_head: "/assets",
-    session_secret: "1234567", //session
-    dirs: {
+    session_secret: "111111", //session
+    paths: {
         controllersPath: 'controllers/',
         modelsPath: 'models/',
         filtersPath: 'filters/',
         servicesPath: 'services/',
         viewsPath: 'views/',
-        staticPath: '../angular/',
+        staticPath: 'angular/',
     },
     db: {
         host: "127.0.0.1", //数据库地址
-        database: "sdemo", //数据库表名
-        username: "root", //数据库用户名
-        password: "root", //数据库密码
+        database: "sdemo", //数据库名
+        username: "sdemo", //数据库用户名
+        password: "123456", //数据库密码
+        port: 3306
     },
     filters: {
         '.*': ['reqres'],
@@ -83,10 +85,14 @@ var config = {
     }
 
 };
-var dirs = config.dirs;
 
-for(dir in dirs){
-    config[dir] = config.basePath + dirs[dir];
+var paths = config.paths;
+var pathKey = '';
+var dirKey = '';
+for(pathKey in paths){
+    dirKey = pathKey.replace(/Path$/, 'Dir');
+    config[pathKey] = config.basePath + paths[pathKey];
+    config[dirKey] = config.baseDir + paths[pathKey];
 }
 
 module.exports = config;

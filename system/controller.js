@@ -8,52 +8,42 @@ var service = require('./service');
 var db = database.create();
 var config = global.config;
 var controllersPath = config.controllersPath;
+var controllersDir = config.controllersDir;
 var filtersPath = config.filtersPath;
+var filtersDir = config.filtersDir;
 var filterFuns = {};
 
-//// var router = express.Router();
-
 function init(app){
-	// var controllerFiles = fs.readdirSync(controllersPath);
-	// var filterFiles = fs.readdirSync(filtersPath);
-	// ‌‌glob(controllersPath + '**/*.js', function(e, files){
-	// 	console.log(files[0])
-	// });
-	// return ;
-	var controllerFiles = glob.sync(controllersPath + '**/*.js');
-	var filterFiles = glob.sync(filtersPath + '**/*.js');
+	
+	var controllerFiles = glob.sync(controllersDir + '**/*.js');
+	var filterFiles = glob.sync(filtersDir + '**/*.js');
     var filterName = '';
 
 	_.forEach(filterFiles, function(file, index){
         var filterName = path.basename(file, '.js');
-		filterFuns[filterName] = require(filtersPath + filterName);
+		filterFuns[filterName] = require(filtersDir + filterName);
 	});
 
 	_.forEach(controllerFiles, function(file){
 		// var stat = fs.statSync(controllersPath + file);
 		var stat = fs.statSync(file);
-		var controllerDir = path.dirname(file) + '/';
+		var filePath = path.relative(path.dirname(), file).replace('\\', '/');
+		var controllerPath = path.dirname(filePath) + '/';
 		var controllerName = path.basename(file, '.js');
 		var routerUrl = '';
 		var Controller = '';
 		var controller = '';
 
 		if(stat.isFile()){
-			controllerDir = controllerDir.replace(controllersPath, '/');
-			routerUrl = controllerDir + controllerName;
+			controllerPath = controllerPath.replace(controllersPath, '/');
+			routerUrl = controllerPath + controllerName;
 			Controller = require(file);
 			var controller = controllerInstantiate(Controller, routerUrl, app);
 //			console.log('userouterUrl:' + routerUrl)
 			// app.use(routerUrl, controller);
 		}
 	});
-    // app.use('/qqq', function(req, res, next){
-    //     console.log('3333333：' + req.originalUrl);
-    //     res.sendData({test: 'test SDemo'});
-    // });
-    // app.use('/*', function(req, res, next){
-    //     console.log('其它一切请求(/*), 请求地址：' + req.originalUrl);
-    // });
+
 }
 
 function controllerInstantiate(constructorMethods, routerUrl, app){
@@ -62,7 +52,7 @@ function controllerInstantiate(constructorMethods, routerUrl, app){
 	
 	var httpReqMethod = global.config.httpReqMethod || ['get', 'post', 'delete', 'put'];
 
-	console.log('use router:' + routerUrl);
+	// console.log('use router:' + routerUrl);
 
 	_.forOwn(actions, function(action, routerStr){
 		var commonAction = null;
@@ -80,7 +70,7 @@ function controllerInstantiate(constructorMethods, routerUrl, app){
 
 		_.forEach(action, function(actionFun, method){
 			(function(routerStr, action, method, instance){
-				console.log('router:', method, '/' + routerStr)
+				// console.log('router:', method, '/' + routerStr)
 				router[method]('/' + routerStr, getRouters(routerUrl + '/' + routerStr, method, function(req, res, next){
 					actionFun.apply(instance, [req, res, next]);
 				}));
@@ -90,18 +80,6 @@ function controllerInstantiate(constructorMethods, routerUrl, app){
 		app.use(routerUrl, router);
 	});
 
-	// router.get('/qqq*', function(req, res, next){
-	//   console.log('3333333333333333')
-	//   res.sendData({test: 'test SDemo'});
-	// });	
-
-	// router.get('/*', function(req, res, next){
-	//   console.log('3333333333333333')
-	// });
- //    router.post('/*', function(req, res, next){
- //        console.log('3333333333333333')
- //    });
-	// return router;
 }
 
 function Class(constructorMethods, routerUrl){
